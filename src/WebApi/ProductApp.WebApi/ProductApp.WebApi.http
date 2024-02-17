@@ -1,0 +1,6 @@
+@ProductApp.WebApi_HostAddress = http://localhost:5031
+
+GET {{ProductApp.WebApi_HostAddress}}/product/
+Accept: application/json
+
+###
