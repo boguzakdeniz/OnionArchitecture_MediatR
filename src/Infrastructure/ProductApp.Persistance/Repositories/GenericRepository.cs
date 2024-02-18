@@ -7,13 +7,15 @@ namespace ProductApp.Persistance.Repositories
 {
     public class GenericRepository<T>(ApplicationDbContext dbContext) : IGenericRepositoryAsync<T> where T : BaseEntity
     {
-        public async Task<List<T>> GetAllAsync() => await dbContext.Set<T>().ToListAsync();
+        private DbSet<T> Table { get => dbContext.Set<T>(); }
 
-        public async Task<T> GetByIdAsync(Guid id) => await dbContext.Set<T>().FindAsync(id);
+        public async Task<List<T>> GetAllAsync() => await Table.ToListAsync();
+
+        public async Task<T> GetByIdAsync(Guid id) => await Table.FindAsync(id);
 
         public async Task<T> AddAsync(T entity)
         {
-            await dbContext.Set<T>().AddAsync(entity);
+            await Table.AddAsync(entity);
             await dbContext.SaveChangesAsync();
             return entity;
         }
